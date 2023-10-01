@@ -1,0 +1,19 @@
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: test
+
+spec:
+    schedule: "* * * * *"
+    
+    successfulJobsHistoryLimit: 2
+    failedJobsHistoryLimit: 0
+    jobTemplate:
+      spec:
+        template:
+          spec:
+            containers:
+              - name: busybox
+                image: busybox
+                command: ["echo" , "hello from pod"]
+            restartPolicy: Never

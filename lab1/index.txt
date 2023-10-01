@@ -1,0 +1,22 @@
+1-command create pod
+kubectl run test3 --image=nginx
+
+2-label and selector
+kubectl run new --image=nginx --labels="env=prod"
+kubectl label pod new tier=backend
+
+3-namspace
+kubectl get ns
+kubectl get pods -n dev
+/*create*/
+kubectl create namespace dev
+
+4-create pod in specfic namespace
+kubectl run pod-prod --image=nginx --namespace=dev
+
+5-show all pod in specfic namespace
+kubectl get pod -n dev
+
+6--change curent space creat pod
+kubectl config set-context --current --namespace=dev
+/*when do command will show all pod in it=> kubectl get pod */ 

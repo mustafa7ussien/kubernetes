@@ -1,0 +1,16 @@
+1-deployment impertative
+kubectl create deploy  new-deploy --image=nginx --replicas=3 --dry-run=client -o yaml > deployyaml.yaml
+
+2-Revision
+kubectl get rs
+/**/
+kubctl set image deploy mydeploy nginx=nginx:1.2
+/**/
+kubectl set image deploy mydeploy nginx=nginx:1.3 --record
+/**/
+kubectl rollout history deploy mydeploy
+/**/
+kubectl rollout undo deploy mydeploy --to-revision=1
+/**/
+kubectl rollout status deploy mydeploy
+

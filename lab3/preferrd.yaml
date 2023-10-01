@@ -1,0 +1,20 @@
+#prefere
+apiVersion: v1
+kind: Pod
+
+metadata:
+ name: podtwo-prefeerd
+spec:
+    containers:
+      - name: nginx
+        image: nginx
+    affinity:
+      nodeAffinity:
+        preferredDuringSchedulingIgnoredDuringExecution:
+          - weight: 1
+            preference:
+              matchExpressions:
+                - key: node
+                  operator: In
+                  values:
+                    - node33
