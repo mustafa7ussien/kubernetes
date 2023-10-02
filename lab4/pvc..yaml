@@ -1,0 +1,15 @@
+##pvc##
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: test-pvccc
+
+spec:
+  storageClassName: manual
+
+  # volumeName: test-pvv #connect with pv
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 2Gi

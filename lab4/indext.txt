@@ -1,0 +1,24 @@
+###########storage##########
+1-kubectl config get-contexts
+2-kubectl config view
+3-openssl genrsa -out test.key 2048
+4-openssl req -new -key test.key -out test.csr -subj "/CN=test"
+5-cat test.csr | base64 | tr -d "\n"
+6- vim test-csr.yaml
+---
+apiVersion: certificates.k8s.io/v1
+kind: CertificateSigningRequest
+metadata:
+  name: test
+spec:
+  request: LS0tLS1CRUdJTiBDRVJUSUZJQ0FURSBSRVFVRVNULS0tLS0KTUlJQ1dEQ0NBVUFDQVFBd0V6RVJNQThHQTFVRUF3d0laRzlzWm1sdVpXUXdnZ0VpTUEwR0NTcUdTSWIzRFFFQgpBUVVBQTRJQkR3QXdnZ0VLQW9JQkFRRE53R3FjYmM3bldyREZ3QUl1SWFIb0FSS0l3WVR4aEpuWDlmdFZMMmovCnd3akp6UWx2Q2NoV3Z3cnFtUlpudVNyN045TVhrOGVWcXhvVmFrT2tUblJEUHJuQ09vYUJTeXFiSW1TaG1PK0oKMWkxc3hFYVFKbjVmL1N6cGs4T0RDTkFLa1RQQXhEem5vSVRoREduNnhFb2ZBb2VXRTZxclhVVy9mSGVlb1JJeQo2WUNkaHVZL0dabXJ3dmJVZis1b056REFaTjZrRmxPT3RBREFJMEZzZWFmTXBxdDBDZUNnTDRlR2pWa1JweW0yClB4YXNYOTByUmprS3hyclVnZk9BZGlDYTdPVjByNGpQcUpjdE13dzhUSFk2dmJFMzhQZmRRVVZvdnUrV2tkUDYKN2xqQ0JwWDkrMDRyKzF4S2hNbGtPWFVKYzZ0bjkwUGtHWHdycVN0VGZqQnJBZ01CQUFHZ0FEQU5CZ2txaGtpRwo5dzBCQVFzRkFBT0NBUUVBb1BqVG9YUGQ4RDJvY1p4WHJsZ2pQbEJUSGxCMjBOWlpqOG1XUlF4YnU5bGJqRzVLClZ5cGowc3VYeUJLQll2VE11S1hMT1RDUTRDcjRJT3laRW41SGJSVmY5aXY3UHJpcmpmR1NDMGtqNitIT3J1Wi8KcFVWajErSnNIbEZGTE9ZWlEvNy90VTBOR3JpWXM3aHBkNFhJTmMzSDVYSkx4MG5CQjhDbmF2dFFTemI4TDhBdApUNUpERVdIVGtsRVJlaUVaYjVMRFNlYkV2QzNLMDlvQ2pvZjY0eXpWMDFqbHpvSTVwV2traVRTOE5MWHpRZGJqClRoNU5xc3MrQzVieXlUR3luMjIxNDVYb2JaVWJSTGJFNlBzb0tGVGhwalNGRHdWR25IeGJ2dzR6WTlUaEw1TTkKa29QV1dhRTVFL3RuZlJuM1V2THo5Z25xL21jbTNlaHRkZ3lkS1E9PQotLS0tLUVORCBDRVJUSUZJQ0FURSBSRVFVRVNULS0tLS0K
+  signerName: kubernetes.io/kube-apiserver-client
+  usages:
+  - client auth
+
+6-kubectl certificate approve test
+7-kubectl get csr test -o jsonpath='{.status.certificate}'| base64 -d > test.crt
+
+8-kubectl config set-credentials test --client-key=/home/mostafa/kubernties/test.key --client-certificate=/home/mostafa/kubernties/test.crt --embed-certs=true
+
+9-kubectl config set-context test --cluster=kubernetes --user=test

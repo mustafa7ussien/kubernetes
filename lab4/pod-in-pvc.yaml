@@ -1,0 +1,20 @@
+######pod#
+apiVersion: v1
+kind: Pod
+metadata:
+  name: test-appp
+
+spec:
+
+  containers:
+    - name: test-appp
+      image: centos
+      command: ["bin/bash"]
+      args: ["-c","while true ; do echo $(date -u) >> testtt/date/output.txt ; sleep 5; done"]
+      volumeMounts:
+        - mountPath: "/data"
+          name: test-storage
+  volumes:
+    - name: test-storage
+      persistentVolumeClaim:
+        claimName: test-pvccc

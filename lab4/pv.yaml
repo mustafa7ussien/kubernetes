@@ -1,0 +1,16 @@
+######Persistent volume####
+##pv#
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: test-pvvv
+
+spec:
+  storageClassName: manual
+  capacity: 
+    storage: 5Gi
+  accessModes:
+    - ReadWriteOnce
+  hostPath:
+    ##path: "/home/mostafa/test-file"
+    path: "/testtt"
